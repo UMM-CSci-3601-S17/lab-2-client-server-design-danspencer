@@ -24,7 +24,15 @@ var getAllUsers = function() {
     });
 }
 
- 
+
+function testStringLength(str) {
+    return str.length;
+}
+
+function returnKittens() {
+    return "kittens";
+}
+
 /**
  * Wrapper to make generating http requests easier. Should maybe be moved
  * somewhere else in the future!.
@@ -57,3 +65,4 @@ function HttpClient() {
         anHttpRequest.send(null);
     }
 }
+
