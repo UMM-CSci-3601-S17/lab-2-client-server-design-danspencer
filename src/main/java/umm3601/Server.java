@@ -18,6 +18,10 @@ public class Server {
         // Simple example route
         get("/hello", (req, res) -> "Hello World");
 
+        // Kittens route
+        //get("/kittens", (req, res) -> "Meow");
+
+        redirect.get("/kittens", "/kittens.html");
         // Redirects for the "home" page
         redirect.get("", "/");
         redirect.get("/", "/index.html");
