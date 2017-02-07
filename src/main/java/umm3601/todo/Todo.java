@@ -6,6 +6,17 @@ import java.text.ParseException;
 import java.util.Comparator;
 
 public class Todo {
+
+    public Todo(){}
+    public Todo(final Todo other)
+    {
+        _id = other._id;
+        owner = other.owner;
+        status = other.status;
+        body = other.body;
+        category = other.category;
+    }
+
     String _id;
     String owner;
     boolean status;
