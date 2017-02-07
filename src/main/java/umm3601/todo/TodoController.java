@@ -40,6 +40,12 @@ public class TodoController {
             filteredTodos = filterTodoByOwner(filteredTodos, limit, owner);
         }
 
+        if(queryParams.containsKey("contains"))
+        {
+            String text = queryParams.get("contains")[0];
+            filteredTodos = filterTodoByBodyContains(filteredTodos, limit, text);
+        }
+
         // Filter by options if specified
 
         /*if(queryParams.containsKey("id")) {
@@ -57,12 +63,18 @@ public class TodoController {
 
     // Filter todos
     public Todo[] filterTodoByOwner(Todo[] filteredTodos, long limit, String owner) {
-        if(limit < 0) //If limit is a sentinel (invlaid) value then there is no limit
+        if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).limit(limit).toArray(Todo[]::new);
     }
 
+    public Todo[] filterTodoByBodyContains(Todo[] filteredTodos, long limit, String text) {
+        if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
+            return Arrays.stream(filteredTodos).filter(x -> x.body.contains(text)).toArray(Todo[]::new);
+        else
+            return Arrays.stream(filteredTodos).filter(x -> x.body.contains(text)).limit(limit).toArray(Todo[]::new);
+    }
 
     // Get a single todo
     public Todo getTodoByID(String id) {
