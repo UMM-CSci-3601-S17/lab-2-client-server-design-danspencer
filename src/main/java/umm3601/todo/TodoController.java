@@ -46,6 +46,12 @@ public class TodoController {
             filteredTodos = filterTodoByBodyContains(filteredTodos, limit, text);
         }
 
+        if(queryParams.containsKey("category"))
+        {
+            String category = queryParams.get("category")[0];
+            filteredTodos = filterTodoByCategory(filteredTodos, limit, category);
+        }
+
         // Filter by options if specified
 
         /*if(queryParams.containsKey("id")) {
@@ -67,6 +73,13 @@ public class TodoController {
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).limit(limit).toArray(Todo[]::new);
+    }
+
+    public Todo[] filterTodoByCategory(Todo[] filteredTodos, long limit, String category) {
+        if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
+            return Arrays.stream(filteredTodos).filter(x -> x.category.equals(category)).toArray(Todo[]::new);
+        else
+            return Arrays.stream(filteredTodos).filter(x -> x.category.equals(category)).limit(limit).toArray(Todo[]::new);
     }
 
     public Todo[] filterTodoByBodyContains(Todo[] filteredTodos, long limit, String text) {
