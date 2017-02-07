@@ -28,12 +28,13 @@ public class filterTodoByBodyContains {
     public void listTodosWithBodyContainsFilter() throws IOException {
         TodoController todoController = new TodoController();
         Map<String, String[]> queryParams = new HashMap<>();
-        queryParams.put("BodyContains", new String[] {"Lorem"});
+        queryParams.put("contains", new String[] {"Lorem"});
         Todo[] LoremTodos = todoController.listTodos(queryParams);
-        assertEquals("Incorrect number of todos with BodyContains Lorem", 83, LoremTodos.length);
-        queryParams.put("BodyContains", new String[] {"ipsum"});
+        assertEquals("Incorrect number of todos with BodyContains Lorem", 84, LoremTodos.length);
+        queryParams.put("contains", new String[] {"ipsum"});
         Todo[] ipsumTodos = todoController.listTodos(queryParams);
-        assertEquals("Incorrect number of todos with BodyContains Ipsum", 59, ipsumTodos.length);
+        assertEquals("Incorrect number of todos with BodyContains i" +
+                "psum", 60, ipsumTodos.length);
 
     }
 }
