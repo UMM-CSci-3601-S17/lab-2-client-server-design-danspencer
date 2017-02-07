@@ -33,8 +33,7 @@ public class filterTodoByBodyContains {
         assertEquals("Incorrect number of todos with BodyContains Lorem", 84, LoremTodos.length);
         queryParams.put("contains", new String[] {"ipsum"});
         Todo[] ipsumTodos = todoController.listTodos(queryParams);
-        assertEquals("Incorrect number of todos with BodyContains i" +
-                "psum", 60, ipsumTodos.length);
+        assertEquals("Incorrect number of todos with BodyContains ipsum", 60, ipsumTodos.length);
 
     }
 }

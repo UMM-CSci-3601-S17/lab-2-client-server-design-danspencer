@@ -24,16 +24,16 @@ public class filterTodoByStatus {
         assertEquals("Incorrect number of todos with Status false", 157,falseTodos.length);
     }
 
-    /*@Test
+    @Test
     public void listTodosWithStatusFilter() throws IOException {
         TodoController todoController = new TodoController();
         Map<String, String[]> queryParams = new HashMap<>();
-        queryParams.put("Status", new String[] {true});
+        queryParams.put("status", new String[] {"true"});
         Todo[] trueTodos = todoController.listTodos(queryParams);
         assertEquals("Incorrect number of todos with Status true", 143, trueTodos.length);
-        queryParams.put("Status", new String[] {false});
+        queryParams.put("status", new String[] {"false"});
         Todo[] falseTodos = todoController.listTodos(queryParams);
         assertEquals("Incorrect number of todos with Status False", 157, falseTodos.length);
 
-    }*/
+    }
 }
