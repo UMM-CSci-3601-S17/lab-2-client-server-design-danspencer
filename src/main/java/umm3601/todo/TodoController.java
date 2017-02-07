@@ -68,21 +68,21 @@ public class TodoController {
     }
 
     // Filter todos
-    public Todo[] filterTodoByOwner(Todo[] filteredTodos, long limit, String owner) {
+    private Todo[] filterTodoByOwner(Todo[] filteredTodos, long limit, String owner) {
         if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).limit(limit).toArray(Todo[]::new);
     }
 
-    public Todo[] filterTodoByCategory(Todo[] filteredTodos, long limit, String category) {
+    private Todo[] filterTodoByCategory(Todo[] filteredTodos, long limit, String category) {
         if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.category.equals(category)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.category.equals(category)).limit(limit).toArray(Todo[]::new);
     }
 
-    public Todo[] filterTodoByBodyContains(Todo[] filteredTodos, long limit, String text) {
+    private Todo[] filterTodoByBodyContains(Todo[] filteredTodos, long limit, String text) {
         if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.body.contains(text)).toArray(Todo[]::new);
         else
@@ -90,7 +90,7 @@ public class TodoController {
     }
 
     // Get a single todo
-    public Todo getTodoByID(String id) {
+    private Todo getTodoByID(String id) {
         return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
     }
 }
