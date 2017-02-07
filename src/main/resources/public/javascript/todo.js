@@ -9,8 +9,11 @@
 window.onload = function() {
     console.log("The page is loaded now!");
 
-    var element = document.getElementById('getAll');
-    element.addEventListener("click", getAllUsers, true);
+    var element = document.getElementById('getTodos');
+    element.addEventListener("click", getTodos, true);
+
+    element = document.getElementById('getTodoByID');
+    element.addEventListener("click", getTodoByID, true);
 
     document.getElementById('owner_name_enabled').checked = false;
     document.getElementById('body_contains_enabled').checked = false;
@@ -31,24 +34,79 @@ window.onload = function() {
 
 /**
  * Refresh the TodoList UI disabled status to reflect
- * the checkboxes
+ * the status of the checkboxes
  */
 var refreshTodoListForms = function() {
-    document.getElementById('todo_filter_owner_name').disabled = document.getElementById('owner_name_enabled').checked;
-    document.getElementById('todo_filter_body_contains').disabled = document.getElementById('body_contains_enabled').checked;
-    document.getElementById('todo_filter_category').disabled = document.getElementById('category_enabled');
-    document.getElementById('todo_filter_status').disabled = document.getElementById('status_enabled');
-    document.getElementById('todo_ordering').disabled = document.getElementById('order_enabled').checked;
-    document.getElementById('todo_filter_limit').disabled = document.getElementById('limit_enabled').checked;
+    document.getElementById('todo_filter_owner_name').disabled      = !document.getElementById('owner_name_enabled').checked;
+    document.getElementById('todo_filter_body_contains').disabled   = !document.getElementById('body_contains_enabled').checked;
+    document.getElementById('todo_filter_category').disabled        = !document.getElementById('category_enabled').checked;
+    document.getElementById('todo_filter_status').disabled          = !document.getElementById('status_enabled').checked;
+    document.getElementById('todo_ordering').disabled               = !document.getElementById('order_enabled').checked;
+    document.getElementById('todo_filter_limit').disabled           = !document.getElementById('limit_enabled').checked;
 };
 
+var createGetParameters = function() {
+    var prefix = "?";
+    var params = "";
+
+    /**
+     * Construct params string by the value of the elements of which are enabled
+     */
+
+    if (document.getElementById('owner_name_enabled').checked)
+    {
+        params += prefix + "owner=" + document.getElementById('todo_filter_owner_name').value;
+        prefix = "&";
+    }
+    if(document.getElementById('body_contains_enabled').checked)
+    {
+        params += prefix + "contains=" + document.getElementById('todo_filter_body_contains').value;
+        prefix = "&";
+    }
+    if(document.getElementById('category_enabled').checked)
+    {
+        params += prefix + "category=" + document.getElementById('todo_filter_category').value;
+        prefix = "&";
+    }
+    if(document.getElementById('status_enabled').checked)
+    {
+        params += prefix + "status=" + document.getElementById('todo_filter_status').value;
+        prefix = "&";
+    }
+    if(document.getElementById('order_enabled').checked)
+    {
+        params += prefix + "orderBy=" + document.getElementById('todo_ordering').value;
+        prefix = "&";
+    }
+    if(document.getElementById('limit_enabled').checked)
+    {
+        params += prefix + "limit=" + document.getElementById('todo_filter_limit').value;
+        prefix = "&";
+    }
+    return params;
+}
 
 /**
- * Function to get all the users!
+ * Function to get all the todos!
  */
-var getAllUsers = function() {
+var getTodos = function() {
+
+    var parameters = createGetParameters();
+
     var HttpThingy = new HttpClient();
-    HttpThingy.get("/api/users", function(returned_json){
+    HttpThingy.get("/api/todos" + parameters, function(returned_json){
+        document.getElementById('jsonDump').innerHTML = returned_json;
+    });
+};
+
+/**
+ * Function to get one of the todos!
+ */
+var getTodoByID = function() {
+    var id = document.getElementById('todo_getby_id').value;
+
+    var HttpThingy = new HttpClient();
+    HttpThingy.get("/api/todos/" + id, function(returned_json){
         document.getElementById('jsonDump').innerHTML = returned_json;
     });
 };
