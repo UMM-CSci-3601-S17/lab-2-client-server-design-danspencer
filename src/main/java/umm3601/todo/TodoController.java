@@ -72,6 +72,15 @@ public class TodoController {
         //Sort the output
         if(queryParams.containsKey("orderBy"))
         {
+            //If filteredTodos Points to the same object as the source data
+            //Make sure not to alter the source data, even though it only sorts it.
+            if(filteredTodos == todos)
+            {
+                filteredTodos = new Todo[todos.length];
+                for(int i = 0; i < todos.length; i++)
+                    filteredTodos[i] = todos[i]; //But we don't need to make a deep clone of each Todo object
+            }
+
             //Filter by the order specified
             String order = queryParams.get("orderBy")[0];
             Todo.TodoComparator cmp = new Todo.TodoComparator(order);
