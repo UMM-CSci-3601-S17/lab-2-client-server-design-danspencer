@@ -52,6 +52,18 @@ public class TodoController {
             filteredTodos = filterTodoByCategory(filteredTodos, limit, category);
         }
 
+        if(queryParams.containsKey("status"))
+        {
+            try {
+                boolean status = Boolean.parseBoolean(queryParams.get("status")[0]);
+                filteredTodos = filterTodoByStatus(filteredTodos, limit, status);
+            }
+            catch(NumberFormatException nfe)
+            {
+                nfe.printStackTrace();
+            }
+        }
+
         // Filter by options if specified
 
         /*if(queryParams.containsKey("id")) {
@@ -68,29 +80,36 @@ public class TodoController {
     }
 
     // Filter todos
-    private Todo[] filterTodoByOwner(Todo[] filteredTodos, long limit, String owner) {
+    public Todo[] filterTodoByOwner(Todo[] filteredTodos, long limit, String owner) {
         if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.owner.equals(owner)).limit(limit).toArray(Todo[]::new);
     }
 
-    private Todo[] filterTodoByCategory(Todo[] filteredTodos, long limit, String category) {
+    public Todo[] filterTodoByCategory(Todo[] filteredTodos, long limit, String category) {
         if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.category.equals(category)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.category.equals(category)).limit(limit).toArray(Todo[]::new);
     }
 
-    private Todo[] filterTodoByBodyContains(Todo[] filteredTodos, long limit, String text) {
+    public Todo[] filterTodoByBodyContains(Todo[] filteredTodos, long limit, String text) {
         if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
             return Arrays.stream(filteredTodos).filter(x -> x.body.contains(text)).toArray(Todo[]::new);
         else
             return Arrays.stream(filteredTodos).filter(x -> x.body.contains(text)).limit(limit).toArray(Todo[]::new);
     }
 
+    public Todo[] filterTodoByStatus(Todo[] filteredTodos, long limit, boolean status) {
+        if(limit < 0) //If limit is a sentinel (invalid) value then there is no limit
+            return Arrays.stream(filteredTodos).filter(x -> x.status == status).toArray(Todo[]::new);
+        else
+            return Arrays.stream(filteredTodos).filter(x -> x.status == status).limit(limit).toArray(Todo[]::new);
+    }
+
     // Get a single todo
-    private Todo getTodoByID(String id) {
+    public Todo getTodoByID(String id) {
         return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
     }
 }
