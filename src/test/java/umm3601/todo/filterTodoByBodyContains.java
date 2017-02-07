@@ -19,21 +19,22 @@ public class filterTodoByBodyContains {
         TodoController todoController = new TodoController();
         Todo[] allTodos = todoController.listTodos(new HashMap<>());
         Todo[] LoremTodos = todoController.filterTodoByBodyContains(allTodos, -1, "Lorem");
-        assertEquals("Incorrect number of todos with BodyContains Lorem", 83,LoremTodos.length);
+        assertEquals("Incorrect number of todos with BodyContains Lorem", 84,LoremTodos.length);
         Todo[] ipsumTodos = todoController.filterTodoByBodyContains(allTodos,-1,"ipsum");
-        assertEquals("Incorrect number of todos with BodyContains ipsum", 59,ipsumTodos.length);
+        assertEquals("Incorrect number of todos with BodyContains ipsum", 60,ipsumTodos.length);
     }
 
     @Test
     public void listTodosWithBodyContainsFilter() throws IOException {
         TodoController todoController = new TodoController();
         Map<String, String[]> queryParams = new HashMap<>();
-        queryParams.put("BodyContains", new String[] {"Lorem"});
+        queryParams.put("contains", new String[] {"Lorem"});
         Todo[] LoremTodos = todoController.listTodos(queryParams);
-        assertEquals("Incorrect number of todos with BodyContains Lorem", 83, LoremTodos.length);
-        queryParams.put("BodyContains", new String[] {"ipsum"});
+        assertEquals("Incorrect number of todos with BodyContains Lorem", 84, LoremTodos.length);
+        queryParams.put("contains", new String[] {"ipsum"});
         Todo[] ipsumTodos = todoController.listTodos(queryParams);
-        assertEquals("Incorrect number of todos with BodyContains Ipsum", 59, ipsumTodos.length);
+        assertEquals("Incorrect number of todos with BodyContains i" +
+                "psum", 60, ipsumTodos.length);
 
     }
 }
