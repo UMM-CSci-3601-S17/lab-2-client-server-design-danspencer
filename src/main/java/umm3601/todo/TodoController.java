@@ -23,7 +23,8 @@ public class TodoController {
         long limit = -1;
         //This is where we define how filters happen and which ones exist based on parameters passed (queryParams)
 
-
+        //IMPORTANT: Make sure limit comes before everything else because it must
+        //be set before any of the filter options would require it.
         if(queryParams.containsKey("limit")) {
             try {
                 limit = Integer.parseInt(queryParams.get("limit")[0]);
@@ -34,24 +35,28 @@ public class TodoController {
             }
         }
 
+        //Filter by owner
         if(queryParams.containsKey("owner"))
         {
             String owner = queryParams.get("owner")[0];
             filteredTodos = filterTodoByOwner(filteredTodos, limit, owner);
         }
 
+        //Filter by body contains
         if(queryParams.containsKey("contains"))
         {
             String text = queryParams.get("contains")[0];
             filteredTodos = filterTodoByBodyContains(filteredTodos, limit, text);
         }
 
+        //Filter by category
         if(queryParams.containsKey("category"))
         {
             String category = queryParams.get("category")[0];
             filteredTodos = filterTodoByCategory(filteredTodos, limit, category);
         }
 
+        //Filter by completion status
         if(queryParams.containsKey("status"))
         {
             try {
@@ -64,20 +69,21 @@ public class TodoController {
             }
         }
 
-        // Filter by options if specified
-
-        /*if(queryParams.containsKey("id")) {
-            String id = queryParams.get("id")[0];
-            Todo a = getTodoByID(id);
-            if (a == null)
-                filteredTodos = new Todo[0]; //Return an array with no todos
-            else
-                filteredTodos = new Todo[]{a};//Return an array with the todo found
-        }*/
+        //Sort the output
+        if(queryParams.containsKey("orderBy"))
+        {
+            //Filter by the order specified
+            String order = queryParams.get("orderBy")[0];
+            Todo.TodoComparator cmp = new Todo.TodoComparator(order);
+            Arrays.sort(filteredTodos, cmp);
+        }
 
 
         return filteredTodos;
     }
+
+
+
 
     // Filter todos
     public Todo[] filterTodoByOwner(Todo[] filteredTodos, long limit, String owner) {
@@ -112,4 +118,6 @@ public class TodoController {
     public Todo getTodoByID(String id) {
         return Arrays.stream(todos).filter(x -> x._id.equals(id)).findFirst().orElse(null);
     }
+
+
 }
