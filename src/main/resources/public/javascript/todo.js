@@ -86,11 +86,12 @@ var createGetParameters = function() {
     return params;
 }
 
+
+
 /**
  * Function to get all the todos!
  */
 var getTodos = function() {
-
     var parameters = createGetParameters();
 
     var HttpThingy = new HttpClient();
