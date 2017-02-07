@@ -3,9 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>ToDo</title>
-    <script src="javascript/todo.js"></script>
+    <script type="text/javascript" src="javascript/todo.js"> </script>
 </head>
 <body>
+    <form>
+        <h1>Filter Todo-List JSon by...</h1>
 
+        Filter by Owner's Name:<br>
+        <input type="checkbox" id="owner_name_enabled"> <input type="text" id="todo_filter_owner_name"><br>
+
+        Filter by whether the body Contains Text:<br>
+        <input type="checkbox" id="body_contains_enabled"> <input type="text" id="todo_filter_body_contains"><br>
+
+        Filter by Category:<br>
+        <input type="checkbox" id="category_enabled"> <input type="text" id="todo_filter_category"><br>
+
+        Filter by Status:<br>
+        <input type="checkbox" id="status_enabled"> <select id="todo_filter_status">
+            <option value="true">Completed First</option>
+            <option value="false">Not Completed First</option>
+        </select> <br>
+
+        Order by...<br>
+        <input type="checkbox" id="order_enabled"> <select id="todo_ordering">
+
+            <option value="owner">Owner</option>
+            <option value="status">Status</option>
+            <option value="body">Body</option>
+            <option value="category">Category</option>
+        </select> <br>
+
+
+        Entry Limit:<br>
+        <input type="checkbox" id="limit_enabled"> <input type="number" id="todo_filter_limit" step="10" min="1" value="1"><br>
+
+        <br>
+
+        <button type="button" id="getAll">Get!</button>
+    </form>
+
+
+    <hr/>
+
+    <div id="jsonDump" style="margin-top:20px"> Json will go here </div>
 </body>
 </html>
