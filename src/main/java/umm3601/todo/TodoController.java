@@ -23,18 +23,22 @@ public class TodoController {
 
         //This is where we define how filters happen and which ones exist based on parameters passed (queryParams)
 
-        // Filter age if defined
-        /*if(queryParams.containsKey("age")) {
-            int age = Integer.parseInt(queryParams.get("age")[0]);
-            filteredUsers = filterUsersByAge(filteredUsers, age);
+        // Filter by options if specified
+        /*if(queryParams.containsKey("id")) {
+            String id = queryParams.get("id")[0];
+            Todo a = getTodoByID(id);
+            if(a == null)
+                filteredTodos = new Todo[0]; //Return an array with no todos
+            else
+                filteredTodos = new Todo[]{a};//Return an array with the todo found
         }*/
 
         return filteredTodos;
     }
 
     // Filter todos
-    /*public Todo[] filterUsersByAge(Todo[] filteredUsers, int age) {
-        return Arrays.stream(filteredUsers).filter(x -> x.age == age).toArray(Todo[]::new);
+    /*public Todo[] filterTodoByID(Todo[] filteredTodos, String id) {
+        return Arrays.stream(filteredTodos).filter(x -> x._id.equals(id)).toArray(Todo[]::new);
     }*/
 
     // Get a single todo

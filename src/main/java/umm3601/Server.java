@@ -52,6 +52,13 @@ public class Server {
             String id = req.params("id");
             return gson.toJson(userController.getUser(id));
         });
+
+        //See a specific todo
+        get("api/todos/:id", (req, res) -> {
+            res.type("application/json");
+            String id = req.params("id");
+            return gson.toJson(todoController.getTodoByID(id));
+        });
     }
 
     public static JsonObject wrapInJson(String name, JsonElement jsonElement) {
