@@ -1,26 +1,22 @@
 describe('testing basic functions', function(){
 
-    /*"document" doesn't exist in the testing context
+    //"document" doesn't exist in the testing context
     it('should return emptystring', function () {
-
-        document.getElementById('owner_name_enabled').checked = true;
-        document.getElementById('todo_filter_owner_name').value = "Blanche";
-       expect(createGetParameters()).toBe("?owner=Blanche");
-    });*/
-
-
-
-/**
-    it('should return the correct string length', function(){
-        expect(testStringLength("kittens")).toEqual(7);
+        var parameter_map = new Array();
+        expect(createGetParameters(parameter_map)).toBe("");
     });
 
-    it('returnKittens should return kittens', function(){
-        expect(returnKittens()).toBe("kittens");
+    it('should return ?owner=Blanche', function () {
+        var parameter_map = new Array();
+        parameter_map["owner"] = "Blanche";
+        expect(createGetParameters(parameter_map)).toBe("?owner=Blanche");
     });
 
-    ////this test should fail.
-    it('this test should fail!', function(){
-        expect(returnKittens()).not.toBe("Not kittens!");
-    });*/
+    it('should return ?owner=Blanche', function () {
+        var parameter_map = new Array();
+        parameter_map["owner"] = "Blanche";
+        parameter_map["limit"] = "17";
+        expect(createGetParameters(parameter_map)).toBe("?owner=Blanche&limit=17");
+    });
+
 });

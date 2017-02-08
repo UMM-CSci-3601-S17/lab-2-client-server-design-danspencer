@@ -22,6 +22,9 @@ window.onload = function() {
     document.getElementById('order_enabled').checked = false;
     document.getElementById('limit_enabled').checked = false;
 
+    /**
+     * Whenever any of the checkboxes are `change`d, refresh the disabled status of the forms
+     */
     document.getElementById('owner_name_enabled').addEventListener("change", refreshTodoListForms);
     document.getElementById('body_contains_enabled').addEventListener("change", refreshTodoListForms);
     document.getElementById('category_enabled').addEventListener("change", refreshTodoListForms);
@@ -45,45 +48,57 @@ var refreshTodoListForms = function() {
     document.getElementById('todo_filter_limit').disabled           = !document.getElementById('limit_enabled').checked;
 };
 
-var createGetParameters = function() {
+/**
+ * package the state of controls into a hashmap AKA js array
+ * for the purpose of using them to create a parameter part of a
+ * To-Do GET request.
+ * @returns {Array}
+ */
+var packageGetParameters =  function()
+{
+    // Because arrays are hashmaps, of course!
+    var param_map = new Array();
+
+    if (document.getElementById('owner_name_enabled').checked)
+        param_map["owner"] = document.getElementById('todo_filter_owner_name').value;
+
+    if(document.getElementById('body_contains_enabled').checked)
+        param_map["contains"] = document.getElementById('todo_filter_body_contains').value;
+
+    if(document.getElementById('category_enabled').checked)
+        param_map["category"] = document.getElementById('todo_filter_category').value;
+
+    if(document.getElementById('status_enabled').checked)
+        param_map["status"] = document.getElementById('todo_filter_status').value;
+
+    if(document.getElementById('order_enabled').checked)
+        param_map["orderBy"] = document.getElementById('todo_ordering').value;
+
+    if(document.getElementById('limit_enabled').checked)
+        param_map["limit"] = document.getElementById('todo_filter_limit').value;
+
+    return param_map;
+}
+
+/**
+ * Expects an array storing key-value pairs of parameters to
+ * construct a URL from
+ * @param param_map
+ * @returns {string}
+ */
+var createGetParameters = function(param_map) {
     var prefix = "?";
-    var params = "";
+    var parameters = "";
 
     /**
      * Construct params string by the value of the elements of which are enabled
      */
+    for (var param in param_map) {
+        parameters += prefix + param + "=" + param_map[param]; //Construct ?owner=Name&limit=3 etc.
+        prefix = "&";
+    }
 
-    if (document.getElementById('owner_name_enabled').checked)
-    {
-        params += prefix + "owner=" + document.getElementById('todo_filter_owner_name').value;
-        prefix = "&";
-    }
-    if(document.getElementById('body_contains_enabled').checked)
-    {
-        params += prefix + "contains=" + document.getElementById('todo_filter_body_contains').value;
-        prefix = "&";
-    }
-    if(document.getElementById('category_enabled').checked)
-    {
-        params += prefix + "category=" + document.getElementById('todo_filter_category').value;
-        prefix = "&";
-    }
-    if(document.getElementById('status_enabled').checked)
-    {
-        params += prefix + "status=" + document.getElementById('todo_filter_status').value;
-        prefix = "&";
-    }
-    if(document.getElementById('order_enabled').checked)
-    {
-        params += prefix + "orderBy=" + document.getElementById('todo_ordering').value;
-        prefix = "&";
-    }
-    if(document.getElementById('limit_enabled').checked)
-    {
-        params += prefix + "limit=" + document.getElementById('todo_filter_limit').value;
-        prefix = "&";
-    }
-    return params;
+    return parameters;
 }
 
 
@@ -92,7 +107,8 @@ var createGetParameters = function() {
  * Function to get all the todos!
  */
 var getTodos = function() {
-    var parameters = createGetParameters();
+    var parameter_map = packageGetParameters();
+    var parameters = createGetParameters(parameter_map);
 
     var HttpThingy = new HttpClient();
     HttpThingy.get("/api/todos" + parameters, function(returned_json){
